@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="ta">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Sri Mahavishnu Info – Bhakti ID</title>
 
 <style>
+
 *{
   box-sizing:border-box;
 }
@@ -67,7 +69,8 @@ label{
   margin:15px 0 7px;
 }
 
-input,select{
+input,
+select{
   width:100%;
   padding:13px;
   border:1px solid #ddd;
@@ -76,7 +79,8 @@ input,select{
   outline:none;
 }
 
-input:focus,select:focus{
+input:focus,
+select:focus{
   border-color:#b8860b;
 }
 
@@ -84,7 +88,7 @@ button{
   width:100%;
   border:0;
   padding:14px;
-  margin-top:18px;
+  margin-top:14px;
   border-radius:14px;
   background:#173b70;
   color:white;
@@ -97,12 +101,24 @@ button:hover{
   opacity:.92;
 }
 
+.secondary{
+  background:#b8860b;
+}
+
+.download{
+  background:#173b70;
+}
+
+.logout{
+  background:#777;
+}
+
 .profile{
   display:none;
   text-align:center;
 }
 
-/* DIGITAL BHAKTI CARD */
+/* DIGITAL CARD */
 
 .bhakti-card{
   background:
@@ -269,18 +285,6 @@ button:hover{
   margin-top:20px;
 }
 
-.secondary{
-  background:#b8860b;
-}
-
-.download{
-  background:#173b70;
-}
-
-.reset{
-  background:#777;
-}
-
 .footer{
   text-align:center;
   font-size:13px;
@@ -288,8 +292,49 @@ button:hover{
   margin-top:25px;
 }
 
-.hidden{
+.status{
+  text-align:center;
+  padding:10px;
+  margin-bottom:15px;
+  border-radius:10px;
   display:none;
+}
+
+.success{
+  background:#e8f5e9;
+  color:#2e7d32;
+}
+
+.error{
+  background:#ffebee;
+  color:#c62828;
+}
+
+.switch-text{
+  text-align:center;
+  margin-top:18px;
+  color:#666;
+  font-size:14px;
+}
+
+.switch-text button{
+  width:auto;
+  background:none;
+  color:#173b70;
+  padding:0;
+  margin:0;
+  font-size:14px;
+}
+
+.user-email{
+  text-align:center;
+  color:#777;
+  font-size:13px;
+  margin-bottom:10px;
+}
+
+.hidden{
+  display:none !important;
 }
 
 @media(max-width:400px){
@@ -305,20 +350,32 @@ button:hover{
   .bhakti-card{
     padding:20px 14px;
   }
+
 }
+
 </style>
 
-<!-- QR CODE LIBRARY -->
+
+<!-- QR CODE -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
-<!-- DOWNLOAD CARD LIBRARY -->
+<!-- DOWNLOAD CARD -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
 </head>
+
 
 <body>
 
 <div class="container">
+
+
+  <!-- HEADER -->
 
   <div class="header">
 
@@ -331,55 +388,152 @@ button:hover{
   </div>
 
 
-  <!-- CREATE PROFILE -->
+  <!-- STATUS -->
 
-  <div class="card" id="createCard">
+  <div id="statusBox" class="status"></div>
 
-    <h2>🪪 Create Your Bhakti ID</h2>
 
-    <p style="text-align:center;color:#666;">
+  <!-- AUTH CARD -->
+
+  <div class="card" id="authCard">
+
+    <h2 id="authTitle">
+      🪷 Create Your Bhakti ID
+    </h2>
+
+    <p
+      id="authDescription"
+      style="text-align:center;color:#666;"
+    >
       உங்கள் பக்திப் பயணத்தை இன்றே தொடங்குங்கள் 🙏
     </p>
 
-    <label>பக்தர் பெயர்</label>
+
+    <!-- SIGNUP NAME -->
+
+    <div id="nameGroup">
+
+      <label>
+        பக்தர் பெயர்
+      </label>
+
+      <input
+        type="text"
+        id="devoteeName"
+        placeholder="உங்கள் பெயரை உள்ளிடுங்கள்"
+        maxlength="40"
+      >
+
+    </div>
+
+
+    <!-- LANGUAGE -->
+
+    <div id="languageGroup">
+
+      <label>
+        மொழி
+      </label>
+
+      <select id="language">
+
+        <option value="Tamil">
+          தமிழ்
+        </option>
+
+        <option value="English">
+          English
+        </option>
+
+        <option value="Kannada">
+          ಕನ್ನಡ
+        </option>
+
+        <option value="Hindi">
+          हिन्दी
+        </option>
+
+        <option value="Telugu">
+          తెలుగు
+        </option>
+
+        <option value="Malayalam">
+          മലയാളം
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- EMAIL -->
+
+    <label>
+      📧 Email
+    </label>
 
     <input
-      type="text"
-      id="devoteeName"
-      placeholder="உங்கள் பெயரை உள்ளிடுங்கள்"
-      maxlength="40"
+      type="email"
+      id="email"
+      placeholder="example@email.com"
+      autocomplete="email"
     >
 
-    <label>மொழி</label>
 
-    <select id="language">
+    <!-- PASSWORD -->
 
-      <option value="Tamil">தமிழ்</option>
+    <label>
+      🔐 Password
+    </label>
 
-      <option value="English">English</option>
+    <input
+      type="password"
+      id="password"
+      placeholder="குறைந்தது 6 characters"
+      autocomplete="new-password"
+    >
 
-      <option value="Kannada">ಕನ್ನಡ</option>
 
-      <option value="Hindi">हिन्दी</option>
-
-      <option value="Telugu">తెలుగు</option>
-
-      <option value="Malayalam">മലയാളം</option>
-
-    </select>
-
-    <button onclick="createBhaktiID()">
+    <button
+      id="mainAuthButton"
+      onclick="handleAuth()"
+    >
       🪷 Create My Bhakti ID
     </button>
+
+
+    <div class="switch-text">
+
+      <span id="switchQuestion">
+        ஏற்கனவே account உள்ளதா?
+      </span>
+
+      <button
+        onclick="toggleAuthMode()"
+        id="switchButton"
+      >
+        Login
+      </button>
+
+    </div>
 
   </div>
 
 
   <!-- PROFILE -->
 
-  <div class="card profile" id="profileCard">
+  <div
+    class="card profile"
+    id="profileCard"
+  >
 
-    <div class="bhakti-card" id="digitalCard">
+    <div class="user-email" id="userEmail"></div>
+
+
+    <div
+      class="bhakti-card"
+      id="digitalCard"
+    >
 
       <div class="card-brand">
         🪷 Sri Mahavishnu Info
@@ -393,9 +547,15 @@ button:hover{
         🙏
       </div>
 
-      <div class="name" id="profileName"></div>
+      <div
+        class="name"
+        id="profileName"
+      ></div>
 
-      <div class="bhakti-id" id="profileID"></div>
+      <div
+        class="bhakti-id"
+        id="profileID"
+      ></div>
 
       <div class="mantra">
         🕉️ ஓம் நமோ நாராயணாய 🕉️
@@ -404,54 +564,73 @@ button:hover{
 
       <div class="stats">
 
+
         <div class="stat">
 
-          <strong id="naamajap">0</strong>
+          <strong id="naamajap">
+            0
+          </strong>
 
-          <span>📿 Naamajap</span>
+          <span>
+            📿 Naamajap
+          </span>
 
         </div>
 
 
         <div class="stat">
 
-          <strong id="sloka">0</strong>
+          <strong id="sloka">
+            0
+          </strong>
 
-          <span>📖 Slokas</span>
-
-        </div>
-
-
-        <div class="stat">
-
-          <strong id="divya">0</strong>
-
-          <span>🛕 Divya Desams</span>
+          <span>
+            📖 Slokas
+          </span>
 
         </div>
 
 
         <div class="stat">
 
-          <strong id="streak">0</strong>
+          <strong id="divya">
+            0
+          </strong>
 
-          <span>🔥 Bhakti Streak</span>
+          <span>
+            🛕 Divya Desams
+          </span>
 
         </div>
+
+
+        <div class="stat">
+
+          <strong id="streak">
+            0
+          </strong>
+
+          <span>
+            🔥 Bhakti Streak
+          </span>
+
+        </div>
+
 
       </div>
 
 
       <div class="bhakti-level">
-
         🌱 Bhakti Journey Started
-
       </div>
 
 
       <!-- QR -->
 
-      <div class="qr-area" id="qrcode"></div>
+      <div
+        class="qr-area"
+        id="qrcode"
+      ></div>
 
       <div class="qr-text">
         Scan to view Bhakti ID
@@ -471,9 +650,10 @@ button:hover{
     </div>
 
 
-    <!-- ACTIONS -->
+    <!-- ACTION BUTTONS -->
 
     <div class="action-buttons">
+
 
       <button onclick="shareBhaktiID()">
         📲 Share My Bhakti ID
@@ -482,34 +662,34 @@ button:hover{
 
       <button
         class="secondary"
-        onclick="shareWhatsApp()">
-
+        onclick="shareWhatsApp()"
+      >
         💬 Share on WhatsApp
-
       </button>
 
 
       <button
         class="download"
-        onclick="downloadCard()">
-
+        onclick="downloadCard()"
+      >
         📥 Download Bhakti Card
-
       </button>
 
 
       <button
-        class="reset"
-        onclick="resetProfile()">
-
-        🔄 Reset
-
+        class="logout"
+        onclick="logoutUser()"
+      >
+        🚪 Logout
       </button>
+
 
     </div>
 
   </div>
 
+
+  <!-- FOOTER -->
 
   <div class="footer">
 
@@ -521,203 +701,870 @@ button:hover{
 
   </div>
 
+
 </div>
 
 
 <script>
 
 
-/* GENERATE ID */
+/* =====================================================
+   FIREBASE CONFIG
+===================================================== */
+
+const firebaseConfig = {
+
+  apiKey:
+    "AIzaSyBHasQlcve1kw7BI0c7C81O9zRB-YxjzTs",
+
+  authDomain:
+    "sri-mahavishnu-bhakti-id.firebaseapp.com",
+
+  projectId:
+    "sri-mahavishnu-bhakti-id",
+
+  storageBucket:
+    "sri-mahavishnu-bhakti-id.firebasestorage.app",
+
+  messagingSenderId:
+    "925194354866",
+
+  appId:
+    "1:925194354866:web:79507fc4e8825f2fd809ab",
+
+  measurementId:
+    "G-XR3H2HTLXC"
+
+};
+
+
+/* INITIALIZE */
+
+firebase.initializeApp(firebaseConfig);
+
+const auth =
+  firebase.auth();
+
+const db =
+  firebase.firestore();
+
+
+/* =====================================================
+   AUTH MODE
+===================================================== */
+
+let isLoginMode = false;
+
+
+function toggleAuthMode(){
+
+  isLoginMode =
+    !isLoginMode;
+
+
+  const nameGroup =
+    document.getElementById(
+      "nameGroup"
+    );
+
+  const languageGroup =
+    document.getElementById(
+      "languageGroup"
+    );
+
+  const title =
+    document.getElementById(
+      "authTitle"
+    );
+
+  const description =
+    document.getElementById(
+      "authDescription"
+    );
+
+  const button =
+    document.getElementById(
+      "mainAuthButton"
+    );
+
+  const question =
+    document.getElementById(
+      "switchQuestion"
+    );
+
+  const switchButton =
+    document.getElementById(
+      "switchButton"
+    );
+
+
+  if(isLoginMode){
+
+    nameGroup.classList.add(
+      "hidden"
+    );
+
+    languageGroup.classList.add(
+      "hidden"
+    );
+
+    title.innerText =
+      "🔐 Bhakti ID Login";
+
+    description.innerText =
+      "உங்கள் Bhakti ID account-ல் Login செய்யுங்கள் 🙏";
+
+    button.innerText =
+      "🔐 Login";
+
+    question.innerText =
+      "Account இல்லையா?";
+
+    switchButton.innerText =
+      "Create Account";
+
+  }else{
+
+    nameGroup.classList.remove(
+      "hidden"
+    );
+
+    languageGroup.classList.remove(
+      "hidden"
+    );
+
+    title.innerText =
+      "🪷 Create Your Bhakti ID";
+
+    description.innerText =
+      "உங்கள் பக்திப் பயணத்தை இன்றே தொடங்குங்கள் 🙏";
+
+    button.innerText =
+      "🪷 Create My Bhakti ID";
+
+    question.innerText =
+      "ஏற்கனவே account உள்ளதா?";
+
+    switchButton.innerText =
+      "Login";
+
+  }
+
+}
+
+
+/* =====================================================
+   STATUS
+===================================================== */
+
+function showStatus(
+  message,
+  type
+){
+
+  const box =
+    document.getElementById(
+      "statusBox"
+    );
+
+  box.innerText =
+    message;
+
+  box.className =
+    "status " + type;
+
+  box.style.display =
+    "block";
+
+
+  setTimeout(
+    function(){
+
+      box.style.display =
+        "none";
+
+    },
+    5000
+  );
+
+}
+
+
+/* =====================================================
+   GENERATE BHAKTI ID
+===================================================== */
 
 function generateBhaktiID(){
 
   const number =
-    Math.floor(10000 + Math.random() * 90000);
+    Math.floor(
+      10000 +
+      Math.random() * 90000
+    );
 
   return "SMI-" + number;
 
 }
 
 
-/* CREATE */
+/* =====================================================
+   CREATE UNIQUE BHAKTI ID
+===================================================== */
 
-function createBhaktiID(){
+async function createUniqueBhaktiID(){
+
+  let id;
+  let exists = true;
+
+  while(exists){
+
+    id =
+      generateBhaktiID();
+
+    const snapshot =
+      await db
+        .collection("users")
+        .where(
+          "bhaktiId",
+          "==",
+          id
+        )
+        .limit(1)
+        .get();
+
+    exists =
+      !snapshot.empty;
+
+  }
+
+  return id;
+
+}
+
+
+/* =====================================================
+   MAIN AUTH
+===================================================== */
+
+async function handleAuth(){
+
+  const email =
+    document
+      .getElementById("email")
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById("password")
+      .value;
+
+
+  if(!email){
+
+    showStatus(
+      "📧 Email address உள்ளிடுங்கள்.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(password.length < 6){
+
+    showStatus(
+      "🔐 Password குறைந்தது 6 characters இருக்க வேண்டும்.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  if(isLoginMode){
+
+    await loginUser(
+      email,
+      password
+    );
+
+  }else{
+
+    await registerUser(
+      email,
+      password
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   REGISTER
+===================================================== */
+
+async function registerUser(
+  email,
+  password
+){
 
   const name =
     document
-      .getElementById("devoteeName")
+      .getElementById(
+        "devoteeName"
+      )
       .value
       .trim();
 
 
+  const language =
+    document
+      .getElementById(
+        "language"
+      )
+      .value;
+
+
   if(!name){
 
-    alert("🙏 முதலில் உங்கள் பெயரை உள்ளிடுங்கள்.");
+    showStatus(
+      "🙏 முதலில் உங்கள் பெயரை உள்ளிடுங்கள்.",
+      "error"
+    );
 
     return;
 
   }
 
 
-  const id = generateBhaktiID();
+  try{
 
-
-  const profile = {
-
-    name:name,
-
-    id:id,
-
-    language:
-      document.getElementById("language").value,
-
-    naamajap:0,
-
-    sloka:0,
-
-    divya:0,
-
-    streak:0
-
-  };
-
-
-  localStorage.setItem(
-
-    "smiBhaktiProfile",
-
-    JSON.stringify(profile)
-
-  );
-
-
-  showProfile(profile);
-
-}
-
-
-/* SHOW PROFILE */
-
-function showProfile(profile){
-
-  document
-    .getElementById("createCard")
-    .style.display="none";
-
-
-  document
-    .getElementById("profileCard")
-    .style.display="block";
-
-
-  document
-    .getElementById("profileName")
-    .innerText=profile.name;
-
-
-  document
-    .getElementById("profileID")
-    .innerText=
-      "🪪 Bhakti ID: " + profile.id;
-
-
-  document
-    .getElementById("naamajap")
-    .innerText=profile.naamajap;
-
-
-  document
-    .getElementById("sloka")
-    .innerText=profile.sloka;
-
-
-  document
-    .getElementById("divya")
-    .innerText=profile.divya;
-
-
-  document
-    .getElementById("streak")
-    .innerText=profile.streak;
-
-
-  generateQR(profile);
-
-}
-
-
-/* QR CODE */
-
-function generateQR(profile){
-
-  const qrBox =
-    document.getElementById("qrcode");
-
-
-  qrBox.innerHTML="";
-
-
-  const pageURL =
-    window.location.origin +
-    window.location.pathname +
-    "?bhakti=" +
-    encodeURIComponent(profile.id);
-
-
-  new QRCode(qrBox,{
-
-    text:pageURL,
-
-    width:130,
-
-    height:130,
-
-    colorDark:"#173b70",
-
-    colorLight:"#ffffff",
-
-    correctLevel:QRCode.CorrectLevel.H
-
-  });
-
-}
-
-
-/* NORMAL SHARE */
-
-function shareBhaktiID(){
-
-  const profile =
-    JSON.parse(
-      localStorage.getItem("smiBhaktiProfile")
+    showStatus(
+      "⏳ உங்கள் Bhakti ID உருவாக்கப்படுகிறது...",
+      "success"
     );
 
 
-  if(!profile){
+    const credential =
+      await auth
+        .createUserWithEmailAndPassword(
+          email,
+          password
+        );
 
-    return;
+
+    const user =
+      credential.user;
+
+
+    const bhaktiId =
+      await createUniqueBhaktiID();
+
+
+    const profile = {
+
+      uid:
+        user.uid,
+
+      name:
+        name,
+
+      email:
+        email,
+
+      bhaktiId:
+        bhaktiId,
+
+      language:
+        language,
+
+      naamajap:
+        0,
+
+      sloka:
+        0,
+
+      divya:
+        0,
+
+      streak:
+        0,
+
+      createdAt:
+        firebase.firestore.FieldValue.serverTimestamp(),
+
+      updatedAt:
+        firebase.firestore.FieldValue.serverTimestamp()
+
+    };
+
+
+    await db
+      .collection("users")
+      .doc(user.uid)
+      .set(profile);
+
+
+    showStatus(
+      "🙏 உங்கள் Bhakti ID வெற்றிகரமாக உருவாக்கப்பட்டது!",
+      "success"
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    let message =
+      "ஏதோ ஒரு பிழை ஏற்பட்டுள்ளது. மீண்டும் முயற்சி செய்யுங்கள்.";
+
+
+    if(
+      error.code ===
+      "auth/email-already-in-use"
+    ){
+
+      message =
+        "📧 இந்த Email ஏற்கனவே பயன்படுத்தப்பட்டுள்ளது. Login செய்யுங்கள்.";
+
+    }
+
+    else if(
+      error.code ===
+      "auth/invalid-email"
+    ){
+
+      message =
+        "📧 Email address சரியாக இல்லை.";
+
+    }
+
+    else if(
+      error.code ===
+      "auth/weak-password"
+    ){
+
+      message =
+        "🔐 Password இன்னும் வலுவாக இருக்க வேண்டும்.";
+
+    }
+
+
+    showStatus(
+      message,
+      "error"
+    );
 
   }
+
+}
+
+
+/* =====================================================
+   LOGIN
+===================================================== */
+
+async function loginUser(
+  email,
+  password
+){
+
+  try{
+
+    showStatus(
+      "⏳ Login செய்கிறது...",
+      "success"
+    );
+
+
+    await auth
+      .signInWithEmailAndPassword(
+        email,
+        password
+      );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    let message =
+      "Login செய்ய முடியவில்லை.";
+
+
+    if(
+      error.code ===
+      "auth/invalid-credential"
+    ){
+
+      message =
+        "❌ Email அல்லது Password தவறாக உள்ளது.";
+
+    }
+
+    else if(
+      error.code ===
+      "auth/user-not-found"
+    ){
+
+      message =
+        "❌ இந்த Email-க்கு account இல்லை.";
+
+    }
+
+    else if(
+      error.code ===
+      "auth/wrong-password"
+    ){
+
+      message =
+        "❌ Password தவறாக உள்ளது.";
+
+    }
+
+
+    showStatus(
+      message,
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   LOAD USER PROFILE
+===================================================== */
+
+async function loadUserProfile(
+  user
+){
+
+  try{
+
+    const doc =
+      await db
+        .collection("users")
+        .doc(user.uid)
+        .get();
+
+
+    if(!doc.exists){
+
+      showStatus(
+        "⚠️ Profile data கிடைக்கவில்லை.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    const profile =
+      doc.data();
+
+
+    showProfile(
+      profile
+    );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    showStatus(
+      "⚠️ Profile load செய்ய முடியவில்லை.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   SHOW PROFILE
+===================================================== */
+
+function showProfile(
+  profile
+){
+
+  document
+    .getElementById(
+      "authCard"
+    )
+    .classList.add(
+      "hidden"
+    );
+
+
+  document
+    .getElementById(
+      "profileCard"
+    )
+    .style.display =
+      "block";
+
+
+  document
+    .getElementById(
+      "userEmail"
+    )
+    .innerText =
+      "📧 " +
+      (
+        profile.email ||
+        ""
+      );
+
+
+  document
+    .getElementById(
+      "profileName"
+    )
+    .innerText =
+      profile.name ||
+      "";
+
+
+  document
+    .getElementById(
+      "profileID"
+    )
+    .innerText =
+      "🪪 Bhakti ID: " +
+      profile.bhaktiId;
+
+
+  document
+    .getElementById(
+      "naamajap"
+    )
+    .innerText =
+      profile.naamajap ||
+      0;
+
+
+  document
+    .getElementById(
+      "sloka"
+    )
+    .innerText =
+      profile.sloka ||
+      0;
+
+
+  document
+    .getElementById(
+      "divya"
+    )
+    .innerText =
+      profile.divya ||
+      0;
+
+
+  document
+    .getElementById(
+      "streak"
+    )
+    .innerText =
+      profile.streak ||
+      0;
+
+
+  generateQR(
+    profile
+  );
+
+}
+
+
+/* =====================================================
+   PUBLIC PROFILE
+===================================================== */
+
+async function loadPublicProfile(
+  bhaktiId
+){
+
+  try{
+
+    const snapshot =
+      await db
+        .collection("users")
+        .where(
+          "bhaktiId",
+          "==",
+          bhaktiId
+        )
+        .limit(1)
+        .get();
+
+
+    if(snapshot.empty){
+
+      showStatus(
+        "❌ இந்த Bhakti ID கிடைக்கவில்லை.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    const profile =
+      snapshot
+        .docs[0]
+        .data();
+
+
+    showProfile(
+      profile
+    );
+
+
+    document
+      .getElementById(
+        "authCard"
+      )
+      .classList.add(
+        "hidden"
+      );
+
+
+  }catch(error){
+
+    console.error(error);
+
+    showStatus(
+      "⚠️ Bhakti ID load செய்ய முடியவில்லை.",
+      "error"
+    );
+
+  }
+
+}
+
+
+/* =====================================================
+   QR
+===================================================== */
+
+function generateQR(
+  profile
+){
+
+  const qrBox =
+    document.getElementById(
+      "qrcode"
+    );
+
+
+  qrBox.innerHTML =
+    "";
 
 
   const pageURL =
     window.location.origin +
     window.location.pathname +
     "?bhakti=" +
-    encodeURIComponent(profile.id);
+    encodeURIComponent(
+      profile.bhaktiId
+    );
+
+
+  new QRCode(
+    qrBox,
+    {
+
+      text:
+        pageURL,
+
+      width:
+        130,
+
+      height:
+        130,
+
+      colorDark:
+        "#173b70",
+
+      colorLight:
+        "#ffffff",
+
+      correctLevel:
+        QRCode.CorrectLevel.H
+
+    }
+  );
+
+}
+
+
+/* =====================================================
+   SHARE
+===================================================== */
+
+async function shareBhaktiID(){
+
+  const user =
+    auth.currentUser;
+
+
+  if(!user){
+
+    return;
+
+  }
+
+
+  const doc =
+    await db
+      .collection("users")
+      .doc(user.uid)
+      .get();
+
+
+  if(!doc.exists){
+
+    return;
+
+  }
+
+
+  const profile =
+    doc.data();
+
+
+  const pageURL =
+    window.location.origin +
+    window.location.pathname +
+    "?bhakti=" +
+    encodeURIComponent(
+      profile.bhaktiId
+    );
 
 
   const text =
 `🪷 Sri Mahavishnu Info
 
-🙏 My Bhakti ID: ${profile.id}
+🙏 My Bhakti ID: ${profile.bhaktiId}
 
 👤 ${profile.name}
 
-📿 Naamajap: ${profile.naamajap}
-📖 Slokas: ${profile.sloka}
-🛕 Divya Desams: ${profile.divya}
-🔥 Bhakti Streak: ${profile.streak}
+📿 Naamajap: ${profile.naamajap || 0}
+📖 Slokas: ${profile.sloka || 0}
+🛕 Divya Desams: ${profile.divya || 0}
+🔥 Bhakti Streak: ${profile.streak || 0}
 
 🕉️ ஓம் நமோ நாராயணாய 🕉️
 
@@ -725,26 +1572,38 @@ function shareBhaktiID(){
 ${pageURL}`;
 
 
-  if(navigator.share){
+  if(
+    navigator.share
+  ){
 
-    navigator.share({
+    try{
 
-      title:
-        "Sri Mahavishnu Info – Bhakti ID",
+      await navigator.share({
 
-      text:text,
+        title:
+          "Sri Mahavishnu Info – Bhakti ID",
 
-      url:pageURL
+        text:
+          text
 
-    });
+      });
+
+    }catch(error){
+
+      console.log(
+        "Share cancelled"
+      );
+
+    }
 
   }else{
 
-    navigator.clipboard
+    await navigator.clipboard
       .writeText(text);
 
-    alert(
-      "🙏 Bhakti ID தகவல் Copy செய்யப்பட்டது."
+    showStatus(
+      "🙏 Bhakti ID தகவல் Copy செய்யப்பட்டது.",
+      "success"
     );
 
   }
@@ -752,41 +1611,61 @@ ${pageURL}`;
 }
 
 
-/* WHATSAPP SHARE */
+/* =====================================================
+   WHATSAPP
+===================================================== */
 
-function shareWhatsApp(){
+async function shareWhatsApp(){
 
-  const profile =
-    JSON.parse(
-      localStorage.getItem("smiBhaktiProfile")
-    );
+  const user =
+    auth.currentUser;
 
 
-  if(!profile){
+  if(!user){
 
     return;
 
   }
 
 
+  const doc =
+    await db
+      .collection("users")
+      .doc(user.uid)
+      .get();
+
+
+  if(!doc.exists){
+
+    return;
+
+  }
+
+
+  const profile =
+    doc.data();
+
+
   const pageURL =
     window.location.origin +
     window.location.pathname +
     "?bhakti=" +
-    encodeURIComponent(profile.id);
+    encodeURIComponent(
+      profile.bhaktiId
+    );
 
 
   const message =
 `🪷 *Sri Mahavishnu Info*
 
-🙏 *என் Bhakti ID:* ${profile.id}
+🙏 *என் Bhakti ID:* ${profile.bhaktiId}
 
 👤 *${profile.name}*
 
-📿 Naamajap: ${profile.naamajap}
-📖 Slokas: ${profile.sloka}
-🛕 Divya Desams: ${profile.divya}
-🔥 Bhakti Streak: ${profile.streak}
+📿 Naamajap: ${profile.naamajap || 0}
+📖 Slokas: ${profile.sloka || 0}
+🛕 Divya Desams: ${profile.divya || 0}
+🔥 Bhakti Streak: ${profile.streak || 0}
 
 🕉️ *ஓம் நமோ நாராயணாய* 🕉️
 
@@ -795,7 +1674,9 @@ function shareWhatsApp(){
 
   const whatsappURL =
     "https://wa.me/?text=" +
-    encodeURIComponent(message);
+    encodeURIComponent(
+      message
+    );
 
 
   window.open(
@@ -806,18 +1687,25 @@ function shareWhatsApp(){
 }
 
 
-/* DOWNLOAD CARD */
+/* =====================================================
+   DOWNLOAD
+===================================================== */
 
 function downloadCard(){
 
   const card =
-    document.getElementById("digitalCard");
+    document.getElementById(
+      "digitalCard"
+    );
 
 
-  if(typeof html2canvas === "undefined"){
+  if(
+    typeof html2canvas ===
+    "undefined"
+  ){
 
     alert(
-      "🙏 Card download library இன்னும் load ஆகவில்லை. சிறிது நேரம் கழித்து முயற்சி செய்யுங்கள்."
+      "🙏 Download library இன்னும் load ஆகவில்லை."
     );
 
     return;
@@ -825,84 +1713,173 @@ function downloadCard(){
   }
 
 
-  html2canvas(card,{
+  html2canvas(
+    card,
+    {
 
-    scale:2,
+      scale:
+        2,
 
-    backgroundColor:"#fffdf5",
+      backgroundColor:
+        "#fffdf5",
 
-    useCORS:true
+      useCORS:
+        true
 
-  }).then(function(canvas){
+    }
+  ).then(
 
-    const link =
-      document.createElement("a");
+    function(canvas){
+
+      const link =
+        document.createElement(
+          "a"
+        );
 
 
-    const profile =
-      JSON.parse(
-        localStorage.getItem("smiBhaktiProfile")
+      const user =
+        auth.currentUser;
+
+
+      let id =
+        "Bhakti-ID";
+
+
+      if(user){
+
+        id =
+          user.uid;
+
+      }
+
+
+      link.download =
+        "Sri-Mahavishnu-Bhakti-ID-" +
+        id +
+        ".png";
+
+
+      link.href =
+        canvas.toDataURL(
+          "image/png"
+        );
+
+
+      link.click();
+
+    }
+
+  );
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logoutUser(){
+
+  try{
+
+    await auth.signOut();
+
+    location.href =
+      window.location.pathname;
+
+  }catch(error){
+
+    console.error(error);
+
+  }
+
+}
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+auth.onAuthStateChanged(
+
+  async function(user){
+
+    /* PUBLIC PROFILE */
+
+    const params =
+      new URLSearchParams(
+        window.location.search
       );
 
 
-    link.download =
-      "Sri-Mahavishnu-Bhakti-ID-" +
-      profile.id +
-      ".png";
+    const bhaktiId =
+      params.get(
+        "bhakti"
+      );
 
 
-    link.href =
-      canvas.toDataURL("image/png");
+    if(bhaktiId){
+
+      await loadPublicProfile(
+        bhaktiId
+      );
+
+      return;
+
+    }
 
 
-    link.click();
+    /* LOGGED IN USER */
 
-  });
+    if(user){
 
-}
+      await loadUserProfile(
+        user
+      );
 
-
-/* RESET */
-
-function resetProfile(){
-
-  if(
-    confirm(
-      "Bhakti ID profile-ஐ reset செய்ய வேண்டுமா?"
-    )
-  ){
-
-    localStorage.removeItem(
-      "smiBhaktiProfile"
-    );
-
-
-    location.reload();
+    }
 
   }
 
-}
+);
 
 
-/* LOAD SAVED PROFILE */
+/* =====================================================
+   PREVENT ENTER SUBMIT ISSUES
+===================================================== */
 
-window.onload=function(){
+document
+  .addEventListener(
+    "keydown",
+    function(event){
 
-  const saved =
-    localStorage.getItem(
-      "smiBhaktiProfile"
-    );
+      if(
+        event.key ===
+        "Enter"
+      ){
+
+        const active =
+          document.activeElement;
 
 
-  if(saved){
+        if(
+          active &&
+          (
+            active.id ===
+            "email" ||
+            active.id ===
+            "password"
+          )
+        ){
 
-    showProfile(
-      JSON.parse(saved)
-    );
+          handleAuth();
 
-  }
+        }
 
-};
+      }
+
+    }
+  );
 
 
 </script>
