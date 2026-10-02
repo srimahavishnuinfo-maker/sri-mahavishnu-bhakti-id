@@ -102,62 +102,179 @@ button:hover{
   text-align:center;
 }
 
+/* DIGITAL BHAKTI CARD */
+
+.bhakti-card{
+  background:
+    linear-gradient(145deg,#fffdf5,#f7efd5);
+  border:2px solid #d4af37;
+  border-radius:24px;
+  padding:24px 18px;
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 12px 35px rgba(0,0,0,.14);
+}
+
+.bhakti-card:before{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  background:rgba(212,175,55,.08);
+  top:-80px;
+  right:-60px;
+}
+
+.bhakti-card:after{
+  content:"";
+  position:absolute;
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  background:rgba(23,59,112,.05);
+  bottom:-70px;
+  left:-50px;
+}
+
+.card-brand{
+  position:relative;
+  z-index:2;
+  color:#173b70;
+  font-weight:bold;
+  font-size:17px;
+}
+
+.card-subtitle{
+  position:relative;
+  z-index:2;
+  color:#765b2a;
+  font-size:12px;
+  margin-top:4px;
+}
+
+.devotee-symbol{
+  position:relative;
+  z-index:2;
+  font-size:48px;
+  margin:14px 0 4px;
+}
+
+.name{
+  position:relative;
+  z-index:2;
+  font-size:28px;
+  font-weight:bold;
+  color:#173b70;
+}
+
 .bhakti-id{
+  position:relative;
+  z-index:2;
   display:inline-block;
   background:#f5e7b8;
   color:#654b12;
   padding:8px 18px;
   border-radius:30px;
   font-weight:bold;
-  margin:10px 0 20px;
-}
-
-.name{
-  font-size:25px;
-  font-weight:bold;
-  color:#173b70;
+  margin:10px 0 15px;
 }
 
 .mantra{
-  margin:18px 0;
-  padding:15px;
+  position:relative;
+  z-index:2;
+  margin:12px 0;
+  padding:14px;
   border-radius:14px;
-  background:#f8f3e5;
-  font-size:19px;
+  background:#fff;
+  font-size:18px;
   color:#765b2a;
   font-weight:bold;
 }
 
 .stats{
+  position:relative;
+  z-index:2;
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:12px;
-  margin-top:20px;
+  gap:10px;
+  margin-top:15px;
 }
 
 .stat{
-  padding:18px 10px;
-  background:#f6f7fa;
-  border-radius:15px;
+  padding:14px 8px;
+  background:rgba(255,255,255,.82);
+  border-radius:14px;
+  border:1px solid rgba(212,175,55,.18);
 }
 
 .stat strong{
   display:block;
-  font-size:25px;
+  font-size:24px;
   color:#173b70;
 }
 
 .stat span{
-  font-size:13px;
+  font-size:12px;
   color:#666;
 }
 
-.badge{
-  margin-top:20px;
-  padding:16px;
+.bhakti-level{
+  position:relative;
+  z-index:2;
+  margin-top:15px;
+  padding:12px;
   background:#fff8df;
-  border-radius:15px;
+  border-radius:14px;
   font-weight:bold;
+  color:#654b12;
+}
+
+.qr-area{
+  position:relative;
+  z-index:2;
+  margin:20px auto 8px;
+  width:150px;
+  padding:10px;
+  background:#fff;
+  border-radius:15px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:150px;
+}
+
+.qr-area canvas,
+.qr-area img{
+  max-width:130px;
+  max-height:130px;
+}
+
+.qr-text{
+  position:relative;
+  z-index:2;
+  font-size:11px;
+  color:#777;
+}
+
+.card-footer{
+  position:relative;
+  z-index:2;
+  margin-top:15px;
+  font-size:11px;
+  color:#777;
+}
+
+.action-buttons{
+  margin-top:20px;
+}
+
+.secondary{
+  background:#b8860b;
+}
+
+.download{
+  background:#173b70;
 }
 
 .reset{
@@ -170,7 +287,33 @@ button:hover{
   color:#777;
   margin-top:25px;
 }
+
+.hidden{
+  display:none;
+}
+
+@media(max-width:400px){
+
+  .card{
+    padding:20px 14px;
+  }
+
+  .name{
+    font-size:25px;
+  }
+
+  .bhakti-card{
+    padding:20px 14px;
+  }
+}
 </style>
+
+<!-- QR CODE LIBRARY -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<!-- DOWNLOAD CARD LIBRARY -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 </head>
 
 <body>
@@ -178,11 +321,13 @@ button:hover{
 <div class="container">
 
   <div class="header">
+
     <div class="logo">🪷</div>
 
     <h1>Sri Mahavishnu Info</h1>
 
     <p>🙏 Bhakti ID – உங்கள் பக்திப் பயணம்</p>
+
   </div>
 
 
@@ -208,12 +353,19 @@ button:hover{
     <label>மொழி</label>
 
     <select id="language">
+
       <option value="Tamil">தமிழ்</option>
+
       <option value="English">English</option>
+
       <option value="Kannada">ಕನ್ನಡ</option>
+
       <option value="Hindi">हिन्दी</option>
+
       <option value="Telugu">తెలుగు</option>
+
       <option value="Malayalam">മലയാളം</option>
+
     </select>
 
     <button onclick="createBhaktiID()">
@@ -227,60 +379,146 @@ button:hover{
 
   <div class="card profile" id="profileCard">
 
-    <div style="font-size:45px;">🙏</div>
+    <div class="bhakti-card" id="digitalCard">
 
-    <div class="name" id="profileName"></div>
+      <div class="card-brand">
+        🪷 Sri Mahavishnu Info
+      </div>
 
-    <div class="bhakti-id" id="profileID"></div>
+      <div class="card-subtitle">
+        Digital Bhakti Identity
+      </div>
 
-    <div class="mantra">
-      🕉️ ஓம் நமோ நாராயணாய 🕉️
+      <div class="devotee-symbol">
+        🙏
+      </div>
+
+      <div class="name" id="profileName"></div>
+
+      <div class="bhakti-id" id="profileID"></div>
+
+      <div class="mantra">
+        🕉️ ஓம் நமோ நாராயணாய 🕉️
+      </div>
+
+
+      <div class="stats">
+
+        <div class="stat">
+
+          <strong id="naamajap">0</strong>
+
+          <span>📿 Naamajap</span>
+
+        </div>
+
+
+        <div class="stat">
+
+          <strong id="sloka">0</strong>
+
+          <span>📖 Slokas</span>
+
+        </div>
+
+
+        <div class="stat">
+
+          <strong id="divya">0</strong>
+
+          <span>🛕 Divya Desams</span>
+
+        </div>
+
+
+        <div class="stat">
+
+          <strong id="streak">0</strong>
+
+          <span>🔥 Bhakti Streak</span>
+
+        </div>
+
+      </div>
+
+
+      <div class="bhakti-level">
+
+        🌱 Bhakti Journey Started
+
+      </div>
+
+
+      <!-- QR -->
+
+      <div class="qr-area" id="qrcode"></div>
+
+      <div class="qr-text">
+        Scan to view Bhakti ID
+      </div>
+
+
+      <div class="card-footer">
+
+        Sri Mahavishnu Info • Bhakti ID
+
+        <br>
+
+        🙏 ஓம் நமோ நாராயணாய 🙏
+
+      </div>
+
     </div>
 
 
-    <div class="stats">
+    <!-- ACTIONS -->
 
-      <div class="stat">
-        <strong id="naamajap">0</strong>
-        <span>📿 Naamajap</span>
-      </div>
+    <div class="action-buttons">
 
-      <div class="stat">
-        <strong id="sloka">0</strong>
-        <span>📖 Slokas</span>
-      </div>
+      <button onclick="shareBhaktiID()">
+        📲 Share My Bhakti ID
+      </button>
 
-      <div class="stat">
-        <strong id="divya">0</strong>
-        <span>🛕 Divya Desams</span>
-      </div>
 
-      <div class="stat">
-        <strong id="streak">0</strong>
-        <span>🔥 Bhakti Streak</span>
-      </div>
+      <button
+        class="secondary"
+        onclick="shareWhatsApp()">
+
+        💬 Share on WhatsApp
+
+      </button>
+
+
+      <button
+        class="download"
+        onclick="downloadCard()">
+
+        📥 Download Bhakti Card
+
+      </button>
+
+
+      <button
+        class="reset"
+        onclick="resetProfile()">
+
+        🔄 Reset
+
+      </button>
 
     </div>
-
-
-    <div class="badge">
-      🌱 Bhakti Journey Started
-    </div>
-
-    <button onclick="shareBhaktiID()">
-      📲 Share My Bhakti ID
-    </button>
-
-    <button class="reset" onclick="resetProfile()">
-      🔄 Reset
-    </button>
 
   </div>
 
 
   <div class="footer">
-    Sri Mahavishnu Info<br>
+
+    Sri Mahavishnu Info
+
+    <br>
+
     🙏 ஓம் நமோ நாராயணாய 🙏
+
   </div>
 
 </div>
@@ -288,29 +526,41 @@ button:hover{
 
 <script>
 
+
+/* GENERATE ID */
+
 function generateBhaktiID(){
 
   const number =
     Math.floor(10000 + Math.random() * 90000);
 
   return "SMI-" + number;
+
 }
 
+
+/* CREATE */
 
 function createBhaktiID(){
 
   const name =
-    document.getElementById("devoteeName").value.trim();
+    document
+      .getElementById("devoteeName")
+      .value
+      .trim();
+
 
   if(!name){
 
     alert("🙏 முதலில் உங்கள் பெயரை உள்ளிடுங்கள்.");
 
     return;
+
   }
 
 
   const id = generateBhaktiID();
+
 
   const profile = {
 
@@ -333,43 +583,107 @@ function createBhaktiID(){
 
 
   localStorage.setItem(
+
     "smiBhaktiProfile",
+
     JSON.stringify(profile)
+
   );
 
 
   showProfile(profile);
+
 }
 
+
+/* SHOW PROFILE */
 
 function showProfile(profile){
 
-  document.getElementById("createCard")
+  document
+    .getElementById("createCard")
     .style.display="none";
 
-  document.getElementById("profileCard")
+
+  document
+    .getElementById("profileCard")
     .style.display="block";
 
 
-  document.getElementById("profileName")
+  document
+    .getElementById("profileName")
     .innerText=profile.name;
 
-  document.getElementById("profileID")
-    .innerText="🪪 Bhakti ID: " + profile.id;
 
-  document.getElementById("naamajap")
+  document
+    .getElementById("profileID")
+    .innerText=
+      "🪪 Bhakti ID: " + profile.id;
+
+
+  document
+    .getElementById("naamajap")
     .innerText=profile.naamajap;
 
-  document.getElementById("sloka")
+
+  document
+    .getElementById("sloka")
     .innerText=profile.sloka;
 
-  document.getElementById("divya")
+
+  document
+    .getElementById("divya")
     .innerText=profile.divya;
 
-  document.getElementById("streak")
+
+  document
+    .getElementById("streak")
     .innerText=profile.streak;
+
+
+  generateQR(profile);
+
 }
 
+
+/* QR CODE */
+
+function generateQR(profile){
+
+  const qrBox =
+    document.getElementById("qrcode");
+
+
+  qrBox.innerHTML="";
+
+
+  const pageURL =
+    window.location.origin +
+    window.location.pathname +
+    "?bhakti=" +
+    encodeURIComponent(profile.id);
+
+
+  new QRCode(qrBox,{
+
+    text:pageURL,
+
+    width:130,
+
+    height:130,
+
+    colorDark:"#173b70",
+
+    colorLight:"#ffffff",
+
+    correctLevel:QRCode.CorrectLevel.H
+
+  });
+
+}
+
+
+/* NORMAL SHARE */
 
 function shareBhaktiID(){
 
@@ -379,10 +693,24 @@ function shareBhaktiID(){
     );
 
 
+  if(!profile){
+
+    return;
+
+  }
+
+
+  const pageURL =
+    window.location.origin +
+    window.location.pathname +
+    "?bhakti=" +
+    encodeURIComponent(profile.id);
+
+
   const text =
 `🪷 Sri Mahavishnu Info
 
-🙏 Bhakti ID: ${profile.id}
+🙏 My Bhakti ID: ${profile.id}
 
 👤 ${profile.name}
 
@@ -391,37 +719,163 @@ function shareBhaktiID(){
 🛕 Divya Desams: ${profile.divya}
 🔥 Bhakti Streak: ${profile.streak}
 
-🕉️ ஓம் நமோ நாராயணாய 🕉️`;
+🕉️ ஓம் நமோ நாராயணாய 🕉️
+
+🔗 Bhakti ID:
+${pageURL}`;
 
 
   if(navigator.share){
 
     navigator.share({
 
-      title:"Sri Mahavishnu Info – Bhakti ID",
+      title:
+        "Sri Mahavishnu Info – Bhakti ID",
 
-      text:text
+      text:text,
+
+      url:pageURL
 
     });
 
   }else{
 
-    navigator.clipboard.writeText(text);
+    navigator.clipboard
+      .writeText(text);
 
-    alert("🙏 Bhakti ID தகவல் Copy செய்யப்பட்டது.");
+    alert(
+      "🙏 Bhakti ID தகவல் Copy செய்யப்பட்டது."
+    );
 
   }
 
 }
 
 
+/* WHATSAPP SHARE */
+
+function shareWhatsApp(){
+
+  const profile =
+    JSON.parse(
+      localStorage.getItem("smiBhaktiProfile")
+    );
+
+
+  if(!profile){
+
+    return;
+
+  }
+
+
+  const pageURL =
+    window.location.origin +
+    window.location.pathname +
+    "?bhakti=" +
+    encodeURIComponent(profile.id);
+
+
+  const message =
+`🪷 *Sri Mahavishnu Info*
+
+🙏 *என் Bhakti ID:* ${profile.id}
+
+👤 *${profile.name}*
+
+📿 Naamajap: ${profile.naamajap}
+📖 Slokas: ${profile.sloka}
+🛕 Divya Desams: ${profile.divya}
+🔥 Bhakti Streak: ${profile.streak}
+
+🕉️ *ஓம் நமோ நாராயணாய* 🕉️
+
+🔗 ${pageURL}`;
+
+
+  const whatsappURL =
+    "https://wa.me/?text=" +
+    encodeURIComponent(message);
+
+
+  window.open(
+    whatsappURL,
+    "_blank"
+  );
+
+}
+
+
+/* DOWNLOAD CARD */
+
+function downloadCard(){
+
+  const card =
+    document.getElementById("digitalCard");
+
+
+  if(typeof html2canvas === "undefined"){
+
+    alert(
+      "🙏 Card download library இன்னும் load ஆகவில்லை. சிறிது நேரம் கழித்து முயற்சி செய்யுங்கள்."
+    );
+
+    return;
+
+  }
+
+
+  html2canvas(card,{
+
+    scale:2,
+
+    backgroundColor:"#fffdf5",
+
+    useCORS:true
+
+  }).then(function(canvas){
+
+    const link =
+      document.createElement("a");
+
+
+    const profile =
+      JSON.parse(
+        localStorage.getItem("smiBhaktiProfile")
+      );
+
+
+    link.download =
+      "Sri-Mahavishnu-Bhakti-ID-" +
+      profile.id +
+      ".png";
+
+
+    link.href =
+      canvas.toDataURL("image/png");
+
+
+    link.click();
+
+  });
+
+}
+
+
+/* RESET */
+
 function resetProfile(){
 
-  if(confirm("Bhakti ID profile-ஐ reset செய்ய வேண்டுமா?")){
+  if(
+    confirm(
+      "Bhakti ID profile-ஐ reset செய்ய வேண்டுமா?"
+    )
+  ){
 
     localStorage.removeItem(
       "smiBhaktiProfile"
     );
+
 
     location.reload();
 
@@ -429,6 +883,8 @@ function resetProfile(){
 
 }
 
+
+/* LOAD SAVED PROFILE */
 
 window.onload=function(){
 
@@ -447,6 +903,7 @@ window.onload=function(){
   }
 
 };
+
 
 </script>
 
