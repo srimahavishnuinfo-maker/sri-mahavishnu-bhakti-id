@@ -1,1 +1,454 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Sri Mahavishnu Info – Bhakti ID</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,"Noto Sans Tamil",sans-serif;
+  background:linear-gradient(135deg,#f8f1df,#e8eef8);
+  color:#222;
+  min-height:100vh;
+}
+
+.container{
+  max-width:650px;
+  margin:auto;
+  padding:25px 16px 50px;
+}
+
+.header{
+  text-align:center;
+  padding:25px 10px;
+}
+
+.logo{
+  font-size:48px;
+  margin-bottom:8px;
+}
+
+.header h1{
+  margin:0;
+  font-size:26px;
+  color:#173b70;
+}
+
+.header p{
+  margin:8px 0 0;
+  color:#765b2a;
+  font-size:15px;
+}
+
+.card{
+  background:#fff;
+  border-radius:22px;
+  padding:24px;
+  box-shadow:0 10px 30px rgba(0,0,0,.10);
+  margin-bottom:20px;
+}
+
+.card h2{
+  margin-top:0;
+  color:#173b70;
+  text-align:center;
+}
+
+label{
+  display:block;
+  font-weight:bold;
+  margin:15px 0 7px;
+}
+
+input,select{
+  width:100%;
+  padding:13px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  font-size:16px;
+  outline:none;
+}
+
+input:focus,select:focus{
+  border-color:#b8860b;
+}
+
+button{
+  width:100%;
+  border:0;
+  padding:14px;
+  margin-top:18px;
+  border-radius:14px;
+  background:#173b70;
+  color:white;
+  font-size:17px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+button:hover{
+  opacity:.92;
+}
+
+.profile{
+  display:none;
+  text-align:center;
+}
+
+.bhakti-id{
+  display:inline-block;
+  background:#f5e7b8;
+  color:#654b12;
+  padding:8px 18px;
+  border-radius:30px;
+  font-weight:bold;
+  margin:10px 0 20px;
+}
+
+.name{
+  font-size:25px;
+  font-weight:bold;
+  color:#173b70;
+}
+
+.mantra{
+  margin:18px 0;
+  padding:15px;
+  border-radius:14px;
+  background:#f8f3e5;
+  font-size:19px;
+  color:#765b2a;
+  font-weight:bold;
+}
+
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-top:20px;
+}
+
+.stat{
+  padding:18px 10px;
+  background:#f6f7fa;
+  border-radius:15px;
+}
+
+.stat strong{
+  display:block;
+  font-size:25px;
+  color:#173b70;
+}
+
+.stat span{
+  font-size:13px;
+  color:#666;
+}
+
+.badge{
+  margin-top:20px;
+  padding:16px;
+  background:#fff8df;
+  border-radius:15px;
+  font-weight:bold;
+}
+
+.reset{
+  background:#777;
+}
+
+.footer{
+  text-align:center;
+  font-size:13px;
+  color:#777;
+  margin-top:25px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="logo">🪷</div>
+
+    <h1>Sri Mahavishnu Info</h1>
+
+    <p>🙏 Bhakti ID – உங்கள் பக்திப் பயணம்</p>
+  </div>
+
+
+  <!-- CREATE PROFILE -->
+
+  <div class="card" id="createCard">
+
+    <h2>🪪 Create Your Bhakti ID</h2>
+
+    <p style="text-align:center;color:#666;">
+      உங்கள் பக்திப் பயணத்தை இன்றே தொடங்குங்கள் 🙏
+    </p>
+
+    <label>பக்தர் பெயர்</label>
+
+    <input
+      type="text"
+      id="devoteeName"
+      placeholder="உங்கள் பெயரை உள்ளிடுங்கள்"
+      maxlength="40"
+    >
+
+    <label>மொழி</label>
+
+    <select id="language">
+      <option value="Tamil">தமிழ்</option>
+      <option value="English">English</option>
+      <option value="Kannada">ಕನ್ನಡ</option>
+      <option value="Hindi">हिन्दी</option>
+      <option value="Telugu">తెలుగు</option>
+      <option value="Malayalam">മലയാളം</option>
+    </select>
+
+    <button onclick="createBhaktiID()">
+      🪷 Create My Bhakti ID
+    </button>
+
+  </div>
+
+
+  <!-- PROFILE -->
+
+  <div class="card profile" id="profileCard">
+
+    <div style="font-size:45px;">🙏</div>
+
+    <div class="name" id="profileName"></div>
+
+    <div class="bhakti-id" id="profileID"></div>
+
+    <div class="mantra">
+      🕉️ ஓம் நமோ நாராயணாய 🕉️
+    </div>
+
+
+    <div class="stats">
+
+      <div class="stat">
+        <strong id="naamajap">0</strong>
+        <span>📿 Naamajap</span>
+      </div>
+
+      <div class="stat">
+        <strong id="sloka">0</strong>
+        <span>📖 Slokas</span>
+      </div>
+
+      <div class="stat">
+        <strong id="divya">0</strong>
+        <span>🛕 Divya Desams</span>
+      </div>
+
+      <div class="stat">
+        <strong id="streak">0</strong>
+        <span>🔥 Bhakti Streak</span>
+      </div>
+
+    </div>
+
+
+    <div class="badge">
+      🌱 Bhakti Journey Started
+    </div>
+
+    <button onclick="shareBhaktiID()">
+      📲 Share My Bhakti ID
+    </button>
+
+    <button class="reset" onclick="resetProfile()">
+      🔄 Reset
+    </button>
+
+  </div>
+
+
+  <div class="footer">
+    Sri Mahavishnu Info<br>
+    🙏 ஓம் நமோ நாராயணாய 🙏
+  </div>
+
+</div>
+
+
+<script>
+
+function generateBhaktiID(){
+
+  const number =
+    Math.floor(10000 + Math.random() * 90000);
+
+  return "SMI-" + number;
+}
+
+
+function createBhaktiID(){
+
+  const name =
+    document.getElementById("devoteeName").value.trim();
+
+  if(!name){
+
+    alert("🙏 முதலில் உங்கள் பெயரை உள்ளிடுங்கள்.");
+
+    return;
+  }
+
+
+  const id = generateBhaktiID();
+
+  const profile = {
+
+    name:name,
+
+    id:id,
+
+    language:
+      document.getElementById("language").value,
+
+    naamajap:0,
+
+    sloka:0,
+
+    divya:0,
+
+    streak:0
+
+  };
+
+
+  localStorage.setItem(
+    "smiBhaktiProfile",
+    JSON.stringify(profile)
+  );
+
+
+  showProfile(profile);
+}
+
+
+function showProfile(profile){
+
+  document.getElementById("createCard")
+    .style.display="none";
+
+  document.getElementById("profileCard")
+    .style.display="block";
+
+
+  document.getElementById("profileName")
+    .innerText=profile.name;
+
+  document.getElementById("profileID")
+    .innerText="🪪 Bhakti ID: " + profile.id;
+
+  document.getElementById("naamajap")
+    .innerText=profile.naamajap;
+
+  document.getElementById("sloka")
+    .innerText=profile.sloka;
+
+  document.getElementById("divya")
+    .innerText=profile.divya;
+
+  document.getElementById("streak")
+    .innerText=profile.streak;
+}
+
+
+function shareBhaktiID(){
+
+  const profile =
+    JSON.parse(
+      localStorage.getItem("smiBhaktiProfile")
+    );
+
+
+  const text =
+`🪷 Sri Mahavishnu Info
+
+🙏 Bhakti ID: ${profile.id}
+
+👤 ${profile.name}
+
+📿 Naamajap: ${profile.naamajap}
+📖 Slokas: ${profile.sloka}
+🛕 Divya Desams: ${profile.divya}
+🔥 Bhakti Streak: ${profile.streak}
+
+🕉️ ஓம் நமோ நாராயணாய 🕉️`;
+
+
+  if(navigator.share){
+
+    navigator.share({
+
+      title:"Sri Mahavishnu Info – Bhakti ID",
+
+      text:text
+
+    });
+
+  }else{
+
+    navigator.clipboard.writeText(text);
+
+    alert("🙏 Bhakti ID தகவல் Copy செய்யப்பட்டது.");
+
+  }
+
+}
+
+
+function resetProfile(){
+
+  if(confirm("Bhakti ID profile-ஐ reset செய்ய வேண்டுமா?")){
+
+    localStorage.removeItem(
+      "smiBhaktiProfile"
+    );
+
+    location.reload();
+
+  }
+
+}
+
+
+window.onload=function(){
+
+  const saved =
+    localStorage.getItem(
+      "smiBhaktiProfile"
+    );
+
+
+  if(saved){
+
+    showProfile(
+      JSON.parse(saved)
+    );
+
+  }
+
+};
+
+</script>
+
+</body>
+</html>
